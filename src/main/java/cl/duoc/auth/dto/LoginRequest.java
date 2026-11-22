@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 public record LoginRequest(
   @Schema(
     description = "Correo electrónico registrado en la plataforma",
-    example = "admin@veterinariasanmarcos.cl",
+    example = "usuario@ejemplo.cl",
     format = "email",
     requiredMode = Schema.RequiredMode.REQUIRED
   )
@@ -18,7 +18,7 @@ public record LoginRequest(
 
   @Schema(
     description = "Contraseña personal del usuario",
-    example = "Cambiar123!",
+    example = "contraseña-de-ejemplo",
     format = "password",
     requiredMode = Schema.RequiredMode.REQUIRED
   )

@@ -5,9 +5,11 @@ import cl.duoc.auth.repository.UsuarioRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@Profile("!prod")
 public class DatosIniciales {
   @Bean CommandLineRunner usuarioInicial(UsuarioRepository repo, PasswordEncoder encoder) {
     return args -> {
@@ -25,7 +27,7 @@ public class DatosIniciales {
         Usuario user = new Usuario();
         user.setNombre("Cliente Demo");
         user.setCorreo("cliente@veterinariasanmarcos.cl");
-        user.setPassword(encoder.encode("Clente123i!"));
+        user.setPassword(encoder.encode("Cliente123!"));
         user.setRegion("Valparaíso");
         user.setComuna("Viña del Mar");
         user.setRol("USER");
