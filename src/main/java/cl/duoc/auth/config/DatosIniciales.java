@@ -33,6 +33,26 @@ public class DatosIniciales {
         user.setRol("USER");
         repo.save(user);
       }
+      if (repo.findByCorreoIgnoreCase("veterinario@veterinariasanmarcos.cl").isEmpty()) {
+        Usuario vet = new Usuario();
+        vet.setNombre("Veterinario San Marcos");
+        vet.setCorreo("veterinario@veterinariasanmarcos.cl");
+        vet.setPassword(encoder.encode("Vet123!"));
+        vet.setRegion("Región del Libertador General Bernardo O'Higgins");
+        vet.setComuna("Rancagua");
+        vet.setRol("VETERINARIO");
+        repo.save(vet);
+      }
+      if (repo.findByCorreoIgnoreCase("recepcionista@veterinariasanmarcos.cl").isEmpty()) {
+        Usuario rec = new Usuario();
+        rec.setNombre("Recepcionista San Marcos");
+        rec.setCorreo("recepcionista@veterinariasanmarcos.cl");
+        rec.setPassword(encoder.encode("Rec123!"));
+        rec.setRegion("Región del Libertador General Bernardo O'Higgins");
+        rec.setComuna("Rancagua");
+        rec.setRol("RECEPCIONISTA");
+       repo.save(rec);
+      }
     };
   }
 }
