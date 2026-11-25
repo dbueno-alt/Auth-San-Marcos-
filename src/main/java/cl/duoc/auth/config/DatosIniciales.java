@@ -11,48 +11,48 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @Profile("!prod")
 public class DatosIniciales {
-  @Bean CommandLineRunner usuarioInicial(UsuarioRepository repo, PasswordEncoder encoder) {
+  @Bean
+  CommandLineRunner usuarioInicial(UsuarioRepository repo, PasswordEncoder encoder) {
     return args -> {
-      if (repo.findByCorreoIgnoreCase("admin@veterinariasanmarcos.cl").isEmpty()) {
-        Usuario admin = new Usuario();
-        admin.setNombre("Administrador San Marcos");
-        admin.setCorreo("admin@veterinariasanmarcos.cl");
-        admin.setPassword(encoder.encode("Cambiar123!"));
-        admin.setRegion("Región Metropolitana de Santiago");
-        admin.setComuna("Providencia");
-        admin.setRol("ADMIN");
-        repo.save(admin);
-      }
-      if (repo.findByCorreoIgnoreCase("cliente@veterinariasanmarcos.cl").isEmpty()) {
-        Usuario user = new Usuario();
-        user.setNombre("Cliente Demo");
-        user.setCorreo("cliente@veterinariasanmarcos.cl");
-        user.setPassword(encoder.encode("Cliente123!"));
-        user.setRegion("Valparaíso");
-        user.setComuna("Viña del Mar");
-        user.setRol("USER");
-        repo.save(user);
-      }
-      if (repo.findByCorreoIgnoreCase("veterinario@veterinariasanmarcos.cl").isEmpty()) {
-        Usuario vet = new Usuario();
-        vet.setNombre("Veterinario San Marcos");
-        vet.setCorreo("veterinario@veterinariasanmarcos.cl");
-        vet.setPassword(encoder.encode("Vet123!"));
-        vet.setRegion("Región del Libertador General Bernardo O'Higgins");
-        vet.setComuna("Rancagua");
-        vet.setRol("VETERINARIO");
-        repo.save(vet);
-      }
-      if (repo.findByCorreoIgnoreCase("recepcionista@veterinariasanmarcos.cl").isEmpty()) {
-        Usuario rec = new Usuario();
-        rec.setNombre("Recepcionista San Marcos");
-        rec.setCorreo("recepcionista@veterinariasanmarcos.cl");
-        rec.setPassword(encoder.encode("Rec123!"));
-        rec.setRegion("Región del Libertador General Bernardo O'Higgins");
-        rec.setComuna("Rancagua");
-        rec.setRol("RECEPCIONISTA");
-       repo.save(rec);
-      }
+      Usuario admin = repo.findByCorreoIgnoreCase("admin@veterinariasanmarcos.cl").orElseGet(Usuario::new);
+      admin.setNombre("Administrador San Marcos");
+      admin.setCorreo("admin@veterinariasanmarcos.cl");
+      admin.setPassword(encoder.encode("Cambiar123!"));
+      admin.setRegion("Región del Libertador General Bernardo O'Higgins");
+      admin.setComuna("Rancagua");
+      admin.setRol("ADMIN");
+      admin.setActivo(true);
+      repo.save(admin);
+
+      Usuario recep = repo.findByCorreoIgnoreCase("recepcion@veterinariasanmarcos.cl").orElseGet(Usuario::new);
+      recep.setNombre("Recepcionista Clínica");
+      recep.setCorreo("recepcion@veterinariasanmarcos.cl");
+      recep.setPassword(encoder.encode("Recepcion123!"));
+      recep.setRegion("Región del Libertador General Bernardo O'Higgins");
+      recep.setComuna("Rancagua");
+      recep.setRol("RECEPCIONISTA");
+      recep.setActivo(true);
+      repo.save(recep);
+
+      Usuario user = repo.findByCorreoIgnoreCase("cliente@veterinariasanmarcos.cl").orElseGet(Usuario::new);
+      user.setNombre("Cliente Demo");
+      user.setCorreo("cliente@veterinariasanmarcos.cl");
+      user.setPassword(encoder.encode("Cliente123!"));
+      user.setRegion("Región del Libertador General Bernardo O'Higgins");
+      user.setComuna("Rancagua");
+      user.setRol("USER");
+      user.setActivo(true);
+      repo.save(user);
+
+      Usuario vet = repo.findByCorreoIgnoreCase("veterinario@veterinariasanmarcos.cl").orElseGet(Usuario::new);
+      vet.setNombre("Dr. Carlos Mendoza");
+      vet.setCorreo("veterinario@veterinariasanmarcos.cl");
+      vet.setPassword(encoder.encode("Veterinario123!"));
+      vet.setRegion("Región del Libertador General Bernardo O'Higgins");
+      vet.setComuna("Rancagua");
+      vet.setRol("VETERINARIO");
+      vet.setActivo(true);
+      repo.save(vet);
     };
   }
 }

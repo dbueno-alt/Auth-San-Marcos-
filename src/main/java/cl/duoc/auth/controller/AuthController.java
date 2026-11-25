@@ -13,12 +13,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -27,7 +26,6 @@ import java.util.Map;
   description = "Operaciones públicas para acceso de clientes/administradores y creación de cuentas en Veterinaria San Marcos."
 )
 public class AuthController {
-
   private final AuthService auth;
 
   public AuthController(AuthService auth) {
@@ -36,7 +34,7 @@ public class AuthController {
 
   @Operation(
     summary = "Iniciar sesión en el sistema",
-    description = "Verifica el correo y contraseña contra la base de datos. Si son válidos, genera un token JWT firmado con el rol del usuario (`ADMIN` o `USER`)."
+    description = "Verifica el correo y contraseña contra la base de datos. Si son válidos, genera un token JWT firmado con el rol del usuario (`ADMIN`, `RECEPCIONISTA`, `VETERINARIO` o `USER`)."
   )
   @ApiResponses({
     @ApiResponse(
@@ -54,7 +52,7 @@ public class AuthController {
     ),
     @ApiResponse(
       responseCode = "401",
-      description = "Credenciales incorrectas (correo no existe o contraseña no coincide).",
+      description = "Credenciales incorrectas (correo no existe, cuenta desactivada o contraseña no coincide).",
       content = @Content(
         schema = @Schema(implementation = ErrorResponse.class),
         examples = @ExampleObject(value = "{\"mensaje\": \"Credenciales inválidas. Verifica tu correo y contraseña.\"}")
@@ -94,7 +92,7 @@ public class AuthController {
     )
   })
   @PostMapping(value = "/registro", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> registro(@Valid @RequestBody RegistroRequest request) {
+  public ResponseEntity<LoginResponse> registro(@Valid @RequestBody RegistroRequest request) {
     return ResponseEntity.status(HttpStatus.CREATED).body(auth.registrar(request));
   }
 

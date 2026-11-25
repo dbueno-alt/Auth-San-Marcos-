@@ -13,14 +13,13 @@ import org.springframework.context.annotation.Configuration;
     title = "Veterinaria San Marcos - API de Autenticación y Seguridad",
     version = "1.0.0",
     description = """
-      Microservicio encargado de la gestión de identidad, registro de clientes/personal
-
+      Microservicio encargado de la gestión de identidad, registro de clientes/personal y emisión de tokens JWT.
+      
       ### Características principales:
-      * **Autenticación Stateless:** Emisión de tokens firmados con roles (`ADMIN` y `USER`).
-      * **Seguridad de Credenciales:** Contraseñas cifradas.
-      * **Validación de Datos:** Verificación estricta de formato de correo, longitud de contraseña y ubicación geográfica (Región/Comuna).
+      - **Autenticación Stateless:** Emisión de tokens firmados con roles (`ADMIN`, `RECEPCIONISTA`, `VETERINARIO` y `USER`).
+      - **Seguridad de Credenciales:** Contraseñas cifradas con BCrypt.
+      - **Validación de Datos:** Verificación estricta de formato de correo, longitud de contraseña y ubicación geográfica (Región/Comuna).
       """
-  
   ),
   servers = {
     @Server(url = "/", description = "Entorno Actual (Local / Túnel SSH / Nginx AWS)"),
